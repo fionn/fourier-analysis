@@ -1,0 +1,64 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}     %mathbb for cm
+\usepackage[tracking=true, activate={true,nocompatibility} factor=1000]{microtype}
+\usepackage[pdfborder={000}, pdfauthor = {Fionn\ Fitzmaurice}, pdftitle = {Plancharel's\ Theorem}, pdfcreator = {TeX}]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{inconsolata}
+\usepackage{geometry}
+
+
+\DeclareMicrotypeAlias{lmss}{cmr}
+\SetTracking{encoding={*}, shape=sc}{25}
+\microtypesetup{protrusion=true}
+
+\frenchspacing
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\renewcommand{\d}{\ensuremath{\mathrm{d}}}
+
+
+\title{Plancharel's Theorem}
+\author{Fionn Fitzmaurice \hspace{20pt} \normalsize{\href{mailto:fionnf@maths.tcd.ie}{\texttt{fionnf@maths.tcd.ie}}}}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\noindent Let $f \in L^{\!1}(\mathbb{R}) \cap L^{\!2}(\mathbb{R})$ be a complex-valued function. We will use the convention that
+\[
+\tilde{f}(k) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \!\! \d x\, f(x) e^{-ikx},\qquad f(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \!\! \d k\, \tilde{f}(k) e^{ikx}.
+\]
+We want to prove that 
+\[
+\int_{-\infty}^\infty \!\! \d x\, \lvert f(x) \rvert^2 = \int_{-\infty}^\infty \!\! \d k \, |\tilde{f}(k)|^2
+\]
+or, equivalently, $\lVert f \rVert_2^2 = \lVert \tilde{f} \rVert_2^2$. Under a different convention for the Fourier transformation, there might be some factors of $2\pi$ floating around.
+\begin{align*}
+\lVert f \rVert_2^2 = \int_{-\infty}^\infty \!\! \d x\, |f(x)|^2 &= \int_{-\infty}^\infty \!\! \d x\, f(x)^* f(x) \\
+    &= \frac{1}{2\pi} \int_{-\infty}^\infty \!\! \d x \left[  \int_{-\infty}^\infty \!\! \d k \tilde{f}(k)^* e^{-ikx} \cdot \int_{-\infty}^\infty \!\! \d k' \tilde{f}(k') e^{ik'\!x} \right] \\
+    &= \frac{1}{2\pi} \iiint\limits_{-\infty}^{\quad\infty} \d x\, \d k\, \d k'\, \tilde{f}(k)^* \tilde{f}(k') e^{ik'\!x} e^{-ikx} \\
+    &= \frac{1}{2\pi} \iiint\limits_{-\infty}^{\quad\infty} \d x\, \d k\, \d k'\, \tilde{f}(k)^* \tilde{f}(k') e^{ix(k'\! - k)},
+\end{align*}
+where $z^*\! = \bar{z}$ denotes the complex conjugate of $z \in \mathbb{C}$.
+The Fourier transformation $\tilde{\delta}(k)$ of $\delta(x)$ is
+\[
+\tilde{\delta}(k) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \!\! \d x\, \delta(x) e^{-ikx} = \frac{1}{\sqrt{2\pi}},
+\]
+so 
+\[
+\delta(x) = \frac{1}{2\pi} \int_{-\infty}^\infty \!\! \d k\, e^{ikx}.
+\]
+Using this,
+\begin{align*}
+\int_{-\infty}^\infty \!\! \d x\, |f(x)|^2 &=  \iint\limits_{-\infty}^{\quad\infty} \d k\, \d k'\, \delta(k'\! - k) \tilde{f}(k)^* \tilde{f}(k') \\
+    &= \int_{-\infty}^\infty \!\! \d k\, \tilde{f}(k)^* \tilde{f}(k) \\
+    &= \int_{-\infty}^\infty \!\! \d k\, |\tilde{f}(k)|^2 = \lVert \tilde{f} \rVert_2^2,
+\end{align*}
+giving $\lVert f \rVert_2^2 = \lVert \tilde{f} \rVert_2^2$. \hfill $\square$
+
+\end{document}

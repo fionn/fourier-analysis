@@ -1,0 +1,125 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}     %mathbb for cm
+\usepackage[tracking=true, activate={true,nocompatibility} factor=1000]{microtype}
+\usepackage[hidelinks, pdfborder={000}, pdfauthor = {Fionn\ Fitzmaurice}, pdftitle = {Fourier\ Coefficients}, pdfcreator = {TeX}]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{inconsolata}
+\usepackage{geometry}
+
+\DeclareMicrotypeAlias{lmss}{cmr}
+\SetTracking{encoding={*}, shape=sc}{25}
+\microtypesetup{protrusion=true}
+
+\frenchspacing
+
+\allowdisplaybreaks[1]
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\renewcommand{\d}{\ensuremath{\mathrm{d}}}
+
+\newcommand{\bra}[1]{\left\langle #1 \right|}
+\newcommand{\ket}[1]{\left| #1 \right\rangle\!}
+\newcommand{\braket}[2]{\left\langle #1 \!\left| #2 \right\rangle\right.}
+
+
+\title{Fourier Coefficients}
+\author{Fionn Fitzmaurice \hspace{20pt} \normalsize{\href{mailto:fionn@maths.tcd.ie}{\texttt{fionn@maths.tcd.ie}}}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\noindent We will define the inner product of (real-valued) functions $f$, $g \in L{\!^2} [-\frac{L}{2}, \frac{L}{2}]$ as 
+%\footnote{$L\!^2$ is the only $L\!^p$ Hilbert space. This is important as every Hilbert space admits an orthonormal basis, so any vector in the space can be expanded in terms of such a basis. This means that every function in $L\!^2$ has a Fourier series expansion.}
+\[
+\braket{f}{g} = \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t)g(t)
+\]
+for some $L \in \mathbb{R}$.
+
+Define
+\[
+c_n: t \mapsto \cos\left(\tfrac{2\pi n t}{L}\right), \qquad 
+s_n :t \mapsto \sin\left(\tfrac{2\pi n t}{L}\right).
+\]
+Notice that $c_0(t) = 1$ and $s_0(t) = 0$ for all $t \in \mathbb{R}$.
+
+For positive $m, n$,
+\[
+\braket{c_m}{c_n} %= \int_{-\frac{L}{2}}^\frac{L}{2} \d t \,
+%\cos\left(\tfrac{2\pi m t}{L}\right)
+%\cos\left(\tfrac{2\pi n t}{L}\right)
+= \frac{L}{2} \delta_{mn},
+\qquad
+\braket{s_m}{s_n} = \frac{L}{2}\delta_{mn}, 
+\qquad 
+\braket{c_m}{s_n} = 0,
+\]
+%and similarly%\footnote{These can be evaluated using identities or complex exponentials.}
+%\[
+%\braket{s_m}{s_n} = \frac{L}{2}\delta_{mn}.
+%\]
+%We also have that $\braket{c_m}{s_n} = 0$, 
+so these functions are orthogonal. In fact, they span $L^{\!2}$ and therefore form a basis.
+
+We would like to be able to express a periodic function $f \in L^{\!2}$ as a linear combination of an infinite number of basis vectors $\{c_n, s_n\}_{n=0}^\infty$. This is the Fourier series.
+
+Recall that the projection $P_w(v)$ of $v$ onto $w$ is given by
+\[
+P_w(v) = \frac{\braket{v}{w}}{\braket{w}{w}} w.
+\]
+We can use this to determine the coefficients of the Fourier series, as
+\begin{align*}
+\frac{\braket{f}{c_n}}{\braket{c_n}{c_n}} &= \frac{2}{L} \braket{f}{c_n} \\
+    &= \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t) \cos\left(\tfrac{2\pi n t}{L}\right)
+\end{align*}
+and
+\begin{align*}
+\frac{\braket{f}{s_n}}{\braket{s_n}{s_n}} &= \frac{2}{L} \braket{f}{s_n} \\
+    &= \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t) \sin\left(\tfrac{2\pi n t}{L}\right).
+\end{align*}
+Using this we get the Euler formulae 
+\[
+a_n = \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t) \cos\left(\tfrac{2\pi n t}{L}\right), \qquad
+b_n = \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t) \sin\left(\tfrac{2\pi n t}{L}\right)
+\]
+which define $a_n$ and $b_n$ for all non-negative $n$. Notice that this gives us
+\[
+b_0 = 0, \qquad a_0 = \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t).
+\]
+
+Let $f \in L\!^2$ and $f(t + L) = f(t)$ for all $t \in \mathbb{R}$. We might now be tempted to write down a na\"ive expression for the Fourier series of $f$ as
+%\footnote{This is the Gram--Schmidt procedure.}
+\[
+f(t) = \sum_{n=0}^\infty \left[ \frac{\braket{f}{c_n}}{\braket{c_n}{c_n}}c_n + \frac{\braket{f}{s_n}}{\braket{s_n}{s_n}}s_n \right] 
+    = \sum_{n=0}^\infty \left[ a_n \cos\left(\tfrac{2\pi n t}{L}\right) + b_n \sin\left(\tfrac{2\pi n t}{L}\right) \right].
+\]
+We expect $\braket{f}{c_n} = \frac{L}{2} a_n$ and $\braket{f}{s_n} = \frac{L}{2} b_n$. However $\braket{f}{c_0} \neq \frac{L}{2} a_0$ as
+\begin{align*}
+\braket{f}{c_0} &= a_0 \braket{c_0}{c_0} + a_1 \braket{c_1}{c_0} + \cdots \\
+    &\quad + b_0 \braket{s_0}{c_0} + b_1\braket{s_1}{c_0} + \cdots\\
+    &= a_0 \braket{c_0}{c_0} \\
+    &= a_0 \int_{-\frac{L}{2}}^\frac{L}{2} \d t \\
+    &= a_0 L.
+\end{align*}
+This is because our definition of $a_0$ from the Euler formulae doesn't follow from the derivation since $\braket{c_n}{c_n} = L \neq \frac{L}{2}$ when $n = 0$. 
+
+One solution to this is to redefine $a_0$ such that it is inconsistent with the general formula for $a_n$ but consistent with our expression for the Fourier series of $f$ above. The conventional approach is to instead redefine our series to be
+\[
+f(t) = \frac{a_0}{2} + \sum_{n=1}^\infty a_n \cos\left(\tfrac{2\pi n t}{L}\right) + \sum_{n=1}^\infty b_n \sin\left(\tfrac{2\pi n t}{L}\right).
+\]
+Then
+\begin{align*}
+\braket{f}{c_0} &= \frac{a_0}{2} \braket{c_0}{c_0} \\
+    &= \frac{L}{2} a_0 \\
+    &= \frac{L}{2} \cdot \frac{2}{L} \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t) \\
+    &= \int_{-\frac{L}{2}}^\frac{L}{2} \d t \, f(t)
+\end{align*}
+as expected.
+
+%In the more natural case where the basis is complex, all of these problems disappear.
+
+\end{document}

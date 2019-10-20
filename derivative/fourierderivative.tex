@@ -1,0 +1,60 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}     %mathbb for cm
+\usepackage[tracking=true, activate={true,nocompatibility} factor=1000]{microtype}
+\usepackage[pdfborder={000}, pdfauthor = {Fionn\ Fitzmaurice}, pdftitle = {The\ Derivative\ of\ the\ Fourier\ Transformation}, pdfcreator = {TeX}]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{inconsolata}
+\usepackage{geometry}
+
+
+\DeclareMicrotypeAlias{lmss}{cmr}
+\SetTracking{encoding={*}, shape=sc}{25}
+\microtypesetup{protrusion=true}
+
+\frenchspacing
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\renewcommand{\d}{\ensuremath{\mathrm{d}}}
+
+
+\title{The Derivative of the Fourier Transformation}
+\author{Fionn Fitzmaurice \hspace{20pt} \normalsize{\href{mailto:fionnf@maths.tcd.ie}{\texttt{fionnf@maths.tcd.ie}}}}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\noindent Let $f \in L^{\!1}(\mathbb{R}) \cap L^{\!2}(\mathbb{R})$ be a complex-valued function. We will use the convention that
+\[
+\tilde{f}(k) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \! \d x\, f(x) e^{-ikx},\qquad f(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \! \d k\, \tilde{f}(k) e^{ikx}
+\]
+and the slightly clunky notation of $\mathcal{F}(f(x)) = \tilde{f}(k)$ to denote the Fourier transformation.
+
+We would like to find an expression for the Fourier transformation of $f'(x)$. The brutish way is to integrate by parts like
+\begin{align*}
+\mathcal{F}(f'(x)) &= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \! \d x \, f'(x) e^{-ikx} \\
+&= \frac{1}{\sqrt{2\pi}} \left( \left[ f(x) e^{-ikx} \right]_{-\infty}^\infty + ik \! \int_{-\infty}^\infty \! \d x\, f(x) e^{-ikx}  \right) \\
+&= ik \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \! \d x \, f(x) e^{-ikx} \\
+&= ik \tilde{f}(k),
+\end{align*}
+where the boundary term vanishes since
+\[
+\lim_{|x| \to \infty} f(x) = 0.
+\]
+It's very easy to justify this limit physically; mathematically I think this works since the existence of the Fourier transformation of $f$ and $f'$ presumes the integrability of $f$ and $f'$. If $f$ is unbounded, $\tilde{f}$ will be discontinuous. There's a myth that $f(x) \to 0$ as $x \to \infty$ because $f \in L^{\!2}$, which probably comes from this. Again, I think the only functions in $L^{\!2}$ which won't satisfy this will be suitably pathological.
+
+It is simpler to notice that
+\begin{align*}
+f'(x) &= \frac{1}{\sqrt{2\pi}} \frac{\d}{\d x} \int_{-\infty}^\infty \! \d k \, \tilde{f}(k) e^{ikx} \\
+&= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \! \d k \, ik \tilde{f}(k) e^{ikx},
+\end{align*}
+where in the last line we make use of the Leibniz integral rule, and we are compelled to identify $\mathcal{F}(f'(x)) = ik \tilde{f}(k)$.
+
+As an aside, the momentum operator $P = -i\hbar \frac{\partial}{\partial x}$ has eigenvalues $p$ which represent observable momenta. Given the above result and the fact that $p = \hbar k$, you should be able to see why (or at least that it is consistent).
+
+\end{document}
